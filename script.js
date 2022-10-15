@@ -2,6 +2,11 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+const { fetchProducts } = require('./helpers/fetchProducts');
+
+const geraItem = (item) => {
+  fetchProducts(item);
+};
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -37,7 +42,7 @@ const createCustomElement = (element, className, innerText) => {
  * @param {string} product.thumbnail - URL da imagem do produto.
  * @returns {Element} Elemento de produto.
  */
-/* const createProductItemElement = ({ id, title, thumbnail }) => {
+const createProductItemElement = ({ id, title, thumbnail }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
@@ -47,7 +52,7 @@ const createCustomElement = (element, className, innerText) => {
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
-}; */
+};
 
 /**
  * Função que recupera o ID do produto passado como parâmetro.
