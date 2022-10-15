@@ -2,11 +2,6 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
-const { fetchProducts } = require('./helpers/fetchProducts');
-
-const geraItem = (item) => {
-  fetchProducts(item);
-};
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
