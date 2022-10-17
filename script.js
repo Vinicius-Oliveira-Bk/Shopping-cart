@@ -77,7 +77,7 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  // li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
@@ -88,7 +88,7 @@ const getFetchItem = async (itemId) => {
   getList.appendChild(addItem);
 };
 
-getFetchItem('MLB1341706310');
+// getFetchItem('MLB1341706310');
 
 const addItemButton = () => {
   const button = document.querySelector('.item__add');
