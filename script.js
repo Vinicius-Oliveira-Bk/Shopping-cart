@@ -1,6 +1,5 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
-
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
 /**
@@ -63,7 +62,7 @@ const getItemFetchProducts = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = (product) => product.querySelector('span.id').innerText;
+const getIdFromProductItem = () => console.log(document.querySelector('.item_id').innerText);
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -77,24 +76,32 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', getIdFromProductItem);
   return li;
 };
 
 const getFetchItem = async (itemId) => {
   const fetchItemResult = await fetchItem(itemId);
-  const getList = document.querySelector('.cart_items');
   const addItem = createCartItemElement(fetchItemResult);
-  getList.appendChild(addItem);
+  const generateList = document.querySelector('.cart__items');
+  generateList.appendChild(addItem);
 };
 
+// const getItem = document.getElementsByClassName('item');
+// getItem.addEventListener('click', createCartItemElement);
 // getFetchItem('MLB1341706310');
 
 const addItemButton = () => {
-  const button = document.querySelector('.item__add');
-  button.addEventListener('click', getFetchItem);
+  const button = document.querySelectorAll('.item__add');
+  button.forEach((element, index) => {
+    element.addEventListener('click', async () => {
+      const id = document.getElementsByClassName('item_id');
+      await getFetchItem(id[index].innerText);
+    });
+  });
 };
 
 window.onload = async () => {
   await getItemFetchProducts();
+  addItemButton();
  };
