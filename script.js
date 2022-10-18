@@ -62,7 +62,10 @@ const getItemFetchProducts = async () => {
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
-const getIdFromProductItem = () => console.log(document.querySelector('.item_id').innerText);
+const getIdFromProductItem = () => {
+  const itemRemove = document.querySelector('.cart__item');
+  itemRemove.parentNode.removeChild(itemRemove);
+};
 
 /**
  * Função responsável por criar e retornar um item do carrinho.
@@ -86,10 +89,6 @@ const getFetchItem = async (itemId) => {
   const generateList = document.querySelector('.cart__items');
   generateList.appendChild(addItem);
 };
-
-// const getItem = document.getElementsByClassName('item');
-// getItem.addEventListener('click', createCartItemElement);
-// getFetchItem('MLB1341706310');
 
 const addItemButton = () => {
   const button = document.querySelectorAll('.item__add');
