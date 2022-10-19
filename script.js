@@ -96,11 +96,14 @@ const addItemButton = () => {
     element.addEventListener('click', async () => {
       const id = document.getElementsByClassName('item_id');
       await getFetchItem(id[index].innerText);
+      saveCartItems(id[index]);
     });
   });
 };
 
 window.onload = async () => {
+  // getSavedCartItems();
   await getItemFetchProducts();
   addItemButton();
+  getSavedCartItems();
  };
