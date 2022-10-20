@@ -100,10 +100,19 @@ const addItemButton = () => {
     });
   });
 };
+ 
+const emptyButton = () => {
+  const getOl = document.querySelector('.cart__items');
+  while (getOl.firstChild) {
+    getOl.removeChild(getOl.firstElementChild);
+  }
+}; 
+
+const button = document.querySelector('.empty-cart');
+button.addEventListener('click', emptyButton);
 
 window.onload = async () => {
   // getSavedCartItems();
   await getItemFetchProducts();
   addItemButton();
-  getSavedCartItems();
  };
