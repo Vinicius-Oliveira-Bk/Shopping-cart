@@ -2,6 +2,19 @@
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
 
+const load = () => {
+  const body = document.querySelector('.items');
+  const carregando = document.createElement('p');
+  carregando.className = 'loading';
+  carregando.innerText = 'Carregando...';
+  body.appendChild(carregando);
+};
+
+const removeLoad = () => {
+  const carregando = document.querySelector('.loading');
+  carregando.remove();
+};
+
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
  * @param {string} imageSource - URL da imagem.
@@ -28,6 +41,19 @@ const createCustomElement = (element, className, innerText) => {
   return e;
 };
 
+const sum = createCustomElement('span', 'total-price', '');
+const buttonEmpty = document.querySelector('.cart');
+buttonEmpty.appendChild(sum);
+
+const subtotal = (price) => {
+  let valors = 0;
+  const tag = document.querySelector('.total-price');
+  const arrayOfItems = document.querySelectorAll('.cart__item');
+  console.log('items', arrayOfItems);
+  valors += price;
+  tag.textContent = `Subtotal: R$${valors}`;
+};
+
 /**
  * Função responsável por criar e retornar o elemento do produto.
  * @param {Object} product - Objeto do produto. 
@@ -51,6 +77,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 const getItemFetchProducts = async () => {
   const arrayOfObjects = await fetchProducts('computador');
   const classItem = document.querySelector('.items');
+  removeLoad();
   const { results } = arrayOfObjects;
   results.forEach((item) => {
     classItem.appendChild(createProductItemElement(item));
@@ -65,6 +92,7 @@ const getItemFetchProducts = async () => {
 const getIdFromProductItem = () => {
   const itemRemove = document.querySelector('.cart__item');
   itemRemove.parentNode.removeChild(itemRemove);
+  localStorage.removeItem('cartItems');
 };
 
 /**
@@ -80,11 +108,21 @@ const createCartItemElement = ({ id, title, price }) => {
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', getIdFromProductItem);
+  subtotal(price);
+  saveCartItems(id, title, price);
+  return li;
+};
+
+const createCartItemElement2 = (item) => {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `ID: ${item.id} | TITLE: ${item.title} | PRICE: $${item.price}`;
+  li.addEventListener('click', getIdFromProductItem);
   return li;
 };
 
 const getFetchItem = async (itemId) => {
-  const fetchItemResult = await fetchItem(itemId);
+  const fetchItemResult = await fetchItem(itemId); 
   const addItem = createCartItemElement(fetchItemResult);
   const generateList = document.querySelector('.cart__items');
   generateList.appendChild(addItem);
@@ -96,7 +134,6 @@ const addItemButton = () => {
     element.addEventListener('click', async () => {
       const id = document.getElementsByClassName('item_id');
       await getFetchItem(id[index].innerText);
-      saveCartItems(id[index]);
     });
   });
 };
@@ -112,7 +149,10 @@ const button = document.querySelector('.empty-cart');
 button.addEventListener('click', emptyButton);
 
 window.onload = async () => {
-  // getSavedCartItems();
+  load();
   await getItemFetchProducts();
   addItemButton();
+  /* if (localStorage.length !== 0) {
+    await getSavedCartItems();
+  } */
  };
